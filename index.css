@@ -14,6 +14,10 @@ body {
   height: 500px;
   background-color: #2c5c4c;
   overflow: hidden;
+  background-image: url('/img/ECOTEC.png'); /* Caminho da imagem do fundo de neve */
+  background-size: cover;
+  background-position: bottom center; /* Faz a imagem de neve ficar no fundo */
+  background-repeat: no-repeat;
 }
 
 /* Área do trenó */

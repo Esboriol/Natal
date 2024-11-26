@@ -77,5 +77,15 @@ function checkPosition(block, target) {
 
   if (correctPositions[color] === targetIndex) {
     alert("Você acertou!");
+
+    if (color == "blue") {
+      acertou("natalecotec/ligar/faixa/blue")
+    } else if (color == "red") {
+      acertou("natalecotec/ligar/faixa/red") 
+    } else if (color == "yellow") {
+      acertou("natalecotec/ligar/faixa/yellow")
+    } else if (color == "green") {
+      acertou("natalecotec/ligar/faixa/green")
+    }
   }
 }
