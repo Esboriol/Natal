@@ -39,6 +39,7 @@ body {
   cursor: pointer;
   background-size: cover;
   background-position: center;
+  transition: all 0.1s ease; /* Para um movimento suave */
 }
 
 .red {
@@ -68,6 +69,8 @@ body {
   height: 80px;
   background-color: rgba(255, 255, 255, 0.3);
   position: absolute;
+  border: 1px dashed #fff;
+  transition: background-color 0.2s ease;
 }
 
 /* Alturas escalonadas para os blocos vazios */
@@ -77,6 +80,6 @@ body {
 .empty-block:nth-child(4) { left: 220px; bottom: 90%; } /* Mais alto que o terceiro */
 
 /* Estilo de destaque para o arrasto */
-.empty-block.hovered {
-  background-color: rgba(255, 255, 255, 0.6);
+.empty-block:hover {
+  background-color: rgba(255, 255, 255, 0.6); /* Quando o dedo se aproxima de um bloco vazio */
 }

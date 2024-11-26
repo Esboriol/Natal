@@ -20,14 +20,17 @@ function shufflePositions() {
 // Chama a função para definir as posições corretas ao carregar a página
 shufflePositions();
 
+// Função para permitir o "drop"
 function allowDrop(event) {
   event.preventDefault();
 }
 
+// Função de arraste (drag)
 function drag(event) {
   draggedBlock = event.target;
 }
 
+// Função de drop (soltar o bloco)
 function drop(event) {
   event.preventDefault();
   const target = event.target;
@@ -50,39 +53,38 @@ function drop(event) {
 // Adicionar eventos de toque para funcionar no celular
 function dragStart(event) {
   // No caso de dispositivos móveis, podemos armazenar o elemento que está sendo arrastado
-  event.dataTransfer = event.dataTransfer || {}; // Verificando se dataTransfer existe
-
-  // Usando touchstart e armazenando a posição inicial do toque
   const touch = event.changedTouches ? event.changedTouches[0] : event;
-  event.dataTransfer.setData("text", event.target.id); // Identificando o elemento
-  event.target.style.opacity = "0.5"; // Um efeito visual para mostrar que o item está sendo arrastado
+  draggedBlock = event.target; // Define o bloco que está sendo arrastado
+  draggedBlock.style.opacity = "0.5"; // Um efeito visual para mostrar que o item está sendo arrastado
 }
 
+// Função para mover o bloco com o toque (touch)
 function touchMove(event) {
-  // Em vez de usar o evento 'dragmove', usamos o 'touchmove' para movimentar o item
   const touch = event.changedTouches[0];
-  const draggedElement = document.getElementById(event.target.id);
-  
-  draggedElement.style.left = `${touch.pageX - 30}px`; // Movendo o item conforme o toque
-  draggedElement.style.top = `${touch.pageY - 50}px`;
+  draggedBlock.style.left = `${touch.pageX - 30}px`; // Movendo o item conforme o toque
+  draggedBlock.style.top = `${touch.pageY - 50}px`;
   event.preventDefault(); // Previne o comportamento padrão (se necessário)
 }
 
+// Função para finalizar o toque e restabelecer a opacidade
 function touchEnd(event) {
-  const draggedElement = document.getElementById(event.target.id);
-  draggedElement.style.opacity = "1"; // Remover o efeito de arrasto
-}
+  draggedBlock.style.opacity = "1"; // Remover o efeito de arrasto
+  const droppedElement = document.elementFromPoint(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
 
-function addTouchEvents(element) {
-  element.addEventListener('touchstart', dragStart, false);
-  element.addEventListener('touchmove', touchMove, false);
-  element.addEventListener('touchend', touchEnd, false);
+  if (droppedElement && droppedElement.classList.contains('empty-block')) {
+    droppedElement.appendChild(draggedBlock);
+    resetBlockPosition(draggedBlock);
+  }
+  draggedBlock = null; // Limpa o bloco arrastado
 }
 
 // Adicionar os eventos de toque aos blocos
 const blocks = document.querySelectorAll('.block');
 blocks.forEach(block => {
-  addTouchEvents(block);
+  block.addEventListener('dragstart', dragStart);
+  block.addEventListener('touchstart', dragStart);
+  block.addEventListener('touchmove', touchMove);
+  block.addEventListener('touchend', touchEnd);
 });
 
 // Função para trocar os blocos de lugar
@@ -114,12 +116,14 @@ function checkPosition(block, target) {
   const targetIndex = emptyBlocks.indexOf(target);
 
   if (correctPositions[color] === targetIndex) {
-    alert("Você acertou!");
+    // Alerta quando o bloco é colocado na posição correta
+    alert(`Você acertou! O bloco ${color} está na posição correta.`);
 
+    // Ações após acertar a posição (por exemplo, acionar algo no sistema)
     if (color == "blue") {
       acertou("natalecotec/ligar/faixa/blue")
     } else if (color == "red") {
-      acertou("natalecotec/ligar/faixa/red") 
+      acertou("natalecotec/ligar/faixa/red")
     } else if (color == "yellow") {
       acertou("natalecotec/ligar/faixa/yellow")
     } else if (color == "green") {
