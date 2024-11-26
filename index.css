@@ -1,0 +1,78 @@
+/* Definindo estilos gerais */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2c3e50;
+  margin: 0;
+  height: 100vh;
+}
+
+.container {
+  position: relative;
+  width: 300px;
+  height: 500px;
+  background-color: #2c5c4c;
+  overflow: hidden;
+}
+
+/* Área do trenó */
+.sleigh {
+  position: absolute;
+  bottom: 30px;
+  left: 10px;
+  width: 280px;
+  height: 165px;
+  border-radius: 10px;
+  background-image: url('img/Treno-removebg-preview.png');
+  background-size: cover;
+}
+
+.block {
+  width: 60px;
+  height: 80px;
+  position: absolute;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+}
+
+.red {
+  background-image: url('img/vermelho.png'); /* Caminho da imagem do presente vermelho */
+  top: 50px;
+  left: 20px;
+}
+.blue {
+  background-image: url('img/roxo.png'); /* Caminho da imagem do presente azul */
+  top: 50px;
+  left: 120px;
+}
+.yellow {
+  background-image: url('img/amarelo.png'); /* Caminho da imagem do presente amarelo */
+  top: 150px;
+  left: 20px;
+}
+.green {
+  background-image: url('img/verde.png'); /* Caminho da imagem do presente verde */
+  top: 150px;
+  left: 120px;
+}
+
+/* Blocos vazios no trenó com alturas escalonadas */
+.empty-block {
+  width: 60px;
+  height: 80px;
+  background-color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+}
+
+/* Alturas escalonadas para os blocos vazios */
+.empty-block:nth-child(1) { left: 25px; bottom: 60%; } /* Bloco mais baixo */
+.empty-block:nth-child(2) { left: 90px; bottom: 70%; } /* Um pouco mais alto */
+.empty-block:nth-child(3) { left: 155px; bottom: 80%; } /* Mais alto que o segundo */
+.empty-block:nth-child(4) { left: 220px; bottom: 90%; } /* Mais alto que o terceiro */
+
+/* Estilo de destaque para o arrasto */
+.empty-block.hovered {
+  background-color: rgba(255, 255, 255, 0.6);
+}
