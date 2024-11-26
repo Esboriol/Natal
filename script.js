@@ -47,6 +47,44 @@ function drop(event) {
   draggedBlock = null; // Limpa o bloco arrastado
 }
 
+// Adicionar eventos de toque para funcionar no celular
+function dragStart(event) {
+  // No caso de dispositivos móveis, podemos armazenar o elemento que está sendo arrastado
+  event.dataTransfer = event.dataTransfer || {}; // Verificando se dataTransfer existe
+
+  // Usando touchstart e armazenando a posição inicial do toque
+  const touch = event.changedTouches ? event.changedTouches[0] : event;
+  event.dataTransfer.setData("text", event.target.id); // Identificando o elemento
+  event.target.style.opacity = "0.5"; // Um efeito visual para mostrar que o item está sendo arrastado
+}
+
+function touchMove(event) {
+  // Em vez de usar o evento 'dragmove', usamos o 'touchmove' para movimentar o item
+  const touch = event.changedTouches[0];
+  const draggedElement = document.getElementById(event.target.id);
+  
+  draggedElement.style.left = `${touch.pageX - 30}px`; // Movendo o item conforme o toque
+  draggedElement.style.top = `${touch.pageY - 50}px`;
+  event.preventDefault(); // Previne o comportamento padrão (se necessário)
+}
+
+function touchEnd(event) {
+  const draggedElement = document.getElementById(event.target.id);
+  draggedElement.style.opacity = "1"; // Remover o efeito de arrasto
+}
+
+function addTouchEvents(element) {
+  element.addEventListener('touchstart', dragStart, false);
+  element.addEventListener('touchmove', touchMove, false);
+  element.addEventListener('touchend', touchEnd, false);
+}
+
+// Adicionar os eventos de toque aos blocos
+const blocks = document.querySelectorAll('.block');
+blocks.forEach(block => {
+  addTouchEvents(block);
+});
+
 // Função para trocar os blocos de lugar
 function swapBlocks(targetBlock, draggedBlock) {
   const draggedParent = draggedBlock.parentNode;
