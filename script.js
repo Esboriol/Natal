@@ -45,9 +45,9 @@ function touchMove(event) {
   const touch = event.changedTouches[0];
 
   // Atualizando a posição do bloco baseado no toque
-  const newX = touch.pageX - 30; // Ajuste para a posição X
-  const newY = touch.pageY - 50; // Ajuste para a posição Y
-  
+  const newX = touch.pageX - draggedBlock.offsetWidth / 2; // Centralizar o bloco com base no toque
+  const newY = touch.pageY - draggedBlock.offsetHeight / 2;
+
   // Usando `requestAnimationFrame` para garantir que o movimento seja suave
   requestAnimationFrame(() => {
     draggedBlock.style.left = `${newX}px`;
@@ -99,10 +99,10 @@ function swapBlocks(targetBlock, draggedBlock) {
 
 // Função para centralizar o bloco dentro do `empty-block`
 function resetBlockPosition(block) {
-  block.style.position = "relative";
+  block.style.position = "absolute";  // Usar absolute para facilitar o posicionamento
   block.style.left = "50%";
   block.style.top = "50%";
-  block.style.transform = "translate(-50%, -50%)";
+  block.style.transform = "translate(-50%, -50%)";  // Ajusta a posição do bloco dentro do container
 }
 
 // Função para verificar se o bloco está na posição correta
