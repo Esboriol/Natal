@@ -1,5 +1,6 @@
 let draggedBlock = null;
 let correctPositions = {}; // Objeto para guardar as posições corretas dos blocos
+let initialTouch = { x: 0, y: 0 }; // Armazenar a posição inicial do toque
 
 // Função para gerar posições corretas aleatórias ao carregar a página
 function shufflePositions() {
@@ -38,15 +39,19 @@ function drag(event) {
 function touchStart(event) {
   draggedBlock = event.target;
   draggedBlock.style.opacity = "0.5"; // Opacidade para mostrar que o item está sendo arrastado
+  // Captura a posição inicial do toque
+  const touch = event.changedTouches[0];
+  initialTouch.x = touch.pageX - draggedBlock.offsetLeft; // Calcula a diferença do toque
+  initialTouch.y = touch.pageY - draggedBlock.offsetTop; // Calcula a diferença do toque
 }
 
 // Função para mover o bloco com o toque (touchmove)
 function touchMove(event) {
   const touch = event.changedTouches[0];
 
-  // Atualizando a posição do bloco baseado no toque
-  const newX = touch.pageX - draggedBlock.offsetWidth / 2; // Centralizar o bloco com base no toque
-  const newY = touch.pageY - draggedBlock.offsetHeight / 2;
+  // Calcula as novas posições com base na posição inicial
+  const newX = touch.pageX - initialTouch.x;
+  const newY = touch.pageY - initialTouch.y;
 
   // Usando `requestAnimationFrame` para garantir que o movimento seja suave
   requestAnimationFrame(() => {
