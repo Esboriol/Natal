@@ -22,12 +22,18 @@ shufflePositions();
 
 // Função para permitir o "drop"
 function allowDrop(event) {
-  event.preventDefault();
+  event.preventDefault(); // Necessário para permitir o "drop"
+  // Se for um toque (mobile), evita o comportamento padrão
+  if (event.type === 'touchmove') {
+    event.preventDefault();
+  }
 }
 
 // Função de arraste (drag)
 function drag(event) {
   draggedBlock = event.target;
+  // Adiciona uma opacidade para mostrar que o item está sendo arrastado
+  draggedBlock.style.opacity = "0.5";
 }
 
 // Função de drop (soltar o bloco)
@@ -37,7 +43,6 @@ function drop(event) {
 
   // Verifica se o alvo é um bloco vazio
   if (target.classList.contains("empty-block") && target.children.length === 0) {
-    // Adiciona o bloco arrastado ao bloco vazio
     target.appendChild(draggedBlock);
     resetBlockPosition(draggedBlock);
   } else if (target.classList.contains("block")) {
@@ -50,26 +55,25 @@ function drop(event) {
   draggedBlock = null; // Limpa o bloco arrastado
 }
 
-// Adicionar eventos de toque para funcionar no celular
-function dragStart(event) {
-  // No caso de dispositivos móveis, podemos armazenar o elemento que está sendo arrastado
-  const touch = event.changedTouches ? event.changedTouches[0] : event;
-  draggedBlock = event.target; // Define o bloco que está sendo arrastado
-  draggedBlock.style.opacity = "0.5"; // Um efeito visual para mostrar que o item está sendo arrastado
+// Função de toque (touch)
+function touchStart(event) {
+  draggedBlock = event.target;
+  draggedBlock.style.opacity = "0.5"; // Opacidade para mostrar o arrasto
 }
 
-// Função para mover o bloco com o toque (touch)
+// Função para mover o bloco com o toque (touchmove)
 function touchMove(event) {
   const touch = event.changedTouches[0];
   draggedBlock.style.left = `${touch.pageX - 30}px`; // Movendo o item conforme o toque
   draggedBlock.style.top = `${touch.pageY - 50}px`;
-  event.preventDefault(); // Previne o comportamento padrão (se necessário)
+  event.preventDefault(); // Previne o comportamento padrão
 }
 
-// Função para finalizar o toque e restabelecer a opacidade
+// Função para finalizar o toque (touchend)
 function touchEnd(event) {
+  const touch = event.changedTouches[0];
   draggedBlock.style.opacity = "1"; // Remover o efeito de arrasto
-  const droppedElement = document.elementFromPoint(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
+  const droppedElement = document.elementFromPoint(touch.pageX, touch.pageY);
 
   if (droppedElement && droppedElement.classList.contains('empty-block')) {
     droppedElement.appendChild(draggedBlock);
@@ -78,11 +82,11 @@ function touchEnd(event) {
   draggedBlock = null; // Limpa o bloco arrastado
 }
 
-// Adicionar os eventos de toque aos blocos
+// Adicionar os eventos de toque e arraste aos blocos
 const blocks = document.querySelectorAll('.block');
 blocks.forEach(block => {
-  block.addEventListener('dragstart', dragStart);
-  block.addEventListener('touchstart', dragStart);
+  block.addEventListener('dragstart', drag);
+  block.addEventListener('touchstart', touchStart);
   block.addEventListener('touchmove', touchMove);
   block.addEventListener('touchend', touchEnd);
 });
