@@ -45,13 +45,12 @@ function drop(event) {
   if (target.classList.contains("empty-block") && target.children.length === 0) {
     target.appendChild(draggedBlock);
     resetBlockPosition(draggedBlock);
+    checkPosition(draggedBlock, target); // Verificar se a posição está correta
   } else if (target.classList.contains("block")) {
     // Troca os blocos se o alvo for outro bloco colorido
     swapBlocks(target, draggedBlock);
   }
 
-  // Verifica se a posição do bloco está correta após a troca
-  checkPosition(draggedBlock, target);
   draggedBlock = null; // Limpa o bloco arrastado
 }
 
@@ -78,7 +77,9 @@ function touchEnd(event) {
   if (droppedElement && droppedElement.classList.contains('empty-block')) {
     droppedElement.appendChild(draggedBlock);
     resetBlockPosition(draggedBlock);
+    checkPosition(draggedBlock, droppedElement); // Verificar se a posição está correta
   }
+
   draggedBlock = null; // Limpa o bloco arrastado
 }
 
@@ -121,17 +122,19 @@ function checkPosition(block, target) {
 
   if (correctPositions[color] === targetIndex) {
     // Alerta quando o bloco é colocado na posição correta
-    alert(`Você acertou! O bloco ${color} está na posição correta.`);
+    setTimeout(() => {
+      alert(`Você acertou! O bloco ${color} está na posição correta.`);
+    }, 50); // Usando setTimeout para garantir que o evento de "drop" seja concluído antes do alert.
 
     // Ações após acertar a posição (por exemplo, acionar algo no sistema)
     if (color == "blue") {
-      acertou("natalecotec/ligar/faixa/blue")
+      acertou("natalecotec/ligar/faixa/blue");
     } else if (color == "red") {
-      acertou("natalecotec/ligar/faixa/red")
+      acertou("natalecotec/ligar/faixa/red");
     } else if (color == "yellow") {
-      acertou("natalecotec/ligar/faixa/yellow")
+      acertou("natalecotec/ligar/faixa/yellow");
     } else if (color == "green") {
-      acertou("natalecotec/ligar/faixa/green")
+      acertou("natalecotec/ligar/faixa/green");
     }
   }
 }
