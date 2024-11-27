@@ -18,6 +18,8 @@ body {
   background-size: cover;
   background-position: bottom center; /* Faz a imagem de neve ficar no fundo */
   background-repeat: no-repeat;
+  border-radius: 10px;
+  /* Esconde a borda para dispositivos móveis */
 }
 
 /* Área do trenó */
@@ -32,6 +34,7 @@ body {
   background-size: cover;
 }
 
+/* Blocos coloridos */
 .block {
   width: 60px;
   height: 80px;
@@ -82,4 +85,34 @@ body {
 /* Estilo de destaque para o arrasto */
 .empty-block:hover {
   background-color: rgba(255, 255, 255, 0.6); /* Quando o dedo se aproxima de um bloco vazio */
+}
+
+/* Remover bordas e ajustar o layout para telas menores */
+@media screen and (max-width: 768px) {
+  .container {
+    background-color: transparent; /* Remove a cor de fundo */
+    background-image: url('/img/ECOTEC.png'); /* Garante que a imagem de fundo ainda esteja visível */
+    border: none; /* Remove borda no celular */
+  }
+
+  .block {
+    width: 50px; /* Ajusta o tamanho dos blocos */
+    height: 70px; /* Ajusta a altura */
+  }
+
+  .sleigh {
+    width: 240px; /* Ajusta o tamanho do trenó */
+    height: 140px; /* Ajusta a altura do trenó */
+  }
+
+  .empty-block {
+    width: 50px; /* Ajusta o tamanho dos blocos vazios */
+    height: 70px; /* Ajusta a altura dos blocos vazios */
+  }
+  
+  /* Faz a imagem de fundo se ajustar melhor para telas pequenas */
+  .container {
+    background-position: center bottom;
+    background-size: cover;
+  }
 }
