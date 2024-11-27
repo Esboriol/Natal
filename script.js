@@ -23,55 +23,46 @@ shufflePositions();
 // Função para permitir o "drop"
 function allowDrop(event) {
   event.preventDefault(); // Necessário para permitir o "drop"
-  // Se for um toque (mobile), evita o comportamento padrão
   if (event.type === 'touchmove') {
-    event.preventDefault();
+    event.preventDefault(); // Previne o comportamento padrão em toque
   }
 }
 
 // Função de arraste (drag)
 function drag(event) {
   draggedBlock = event.target;
-  // Adiciona uma opacidade para mostrar que o item está sendo arrastado
-  draggedBlock.style.opacity = "0.5";
-}
-
-// Função de drop (soltar o bloco)
-function drop(event) {
-  event.preventDefault();
-  const target = event.target;
-
-  // Verifica se o alvo é um bloco vazio
-  if (target.classList.contains("empty-block") && target.children.length === 0) {
-    target.appendChild(draggedBlock);
-    resetBlockPosition(draggedBlock);
-    checkPosition(draggedBlock, target); // Verificar se a posição está correta
-  } else if (target.classList.contains("block")) {
-    // Troca os blocos se o alvo for outro bloco colorido
-    swapBlocks(target, draggedBlock);
-  }
-
-  draggedBlock = null; // Limpa o bloco arrastado
+  draggedBlock.style.opacity = "0.5"; // Efeito de transparência enquanto arrasta
 }
 
 // Função de toque (touch)
 function touchStart(event) {
   draggedBlock = event.target;
-  draggedBlock.style.opacity = "0.5"; // Opacidade para mostrar o arrasto
+  draggedBlock.style.opacity = "0.5"; // Opacidade para mostrar que o item está sendo arrastado
 }
 
 // Função para mover o bloco com o toque (touchmove)
 function touchMove(event) {
   const touch = event.changedTouches[0];
-  draggedBlock.style.left = `${touch.pageX - 30}px`; // Movendo o item conforme o toque
-  draggedBlock.style.top = `${touch.pageY - 50}px`;
-  event.preventDefault(); // Previne o comportamento padrão
+
+  // Atualizando a posição do bloco baseado no toque
+  const newX = touch.pageX - 30; // Ajuste para a posição X
+  const newY = touch.pageY - 50; // Ajuste para a posição Y
+  
+  // Usando `requestAnimationFrame` para garantir que o movimento seja suave
+  requestAnimationFrame(() => {
+    draggedBlock.style.left = `${newX}px`;
+    draggedBlock.style.top = `${newY}px`;
+  });
+
+  event.preventDefault(); // Previne o comportamento padrão de rolagem da página
 }
 
 // Função para finalizar o toque (touchend)
 function touchEnd(event) {
   const touch = event.changedTouches[0];
   draggedBlock.style.opacity = "1"; // Remover o efeito de arrasto
+
+  // Verifica onde o bloco foi soltado
   const droppedElement = document.elementFromPoint(touch.pageX, touch.pageY);
 
   if (droppedElement && droppedElement.classList.contains('empty-block')) {
